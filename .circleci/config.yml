@@ -1,0 +1,53 @@
+version: 2.1
+
+commands:
+  inst_deps:
+    steps:
+      - run:
+          name: Install dependencies
+          command: |
+            npm ci --prefix src/
+
+jobs:
+  ci-build:
+    docker:
+      - image: circleci/node:lts
+    environment:
+      JEST_JUNIT_OUTPUT_DIR: test-output
+    steps:
+      - checkout
+      - inst_deps
+      - run:
+          name: Run unit tests
+          command: |
+            npm run test-unit --prefix src/
+      - store_test_results:
+          path: ./src/test-output
+
+  pack:
+    docker:
+      - image: circleci/node:lts
+    environment:
+      NODE_ENV: production
+    steps:
+      - checkout
+      - inst_deps
+      - run:
+          name: pack
+          command: |
+            cd src/
+            npm pack
+      - store_artifacts:
+          path: ./src/simpletodoapp-1.0.0.tgz
+
+workflows:
+  build-and-package:
+    jobs:
+      - ci-build
+      - pack:
+          requires:
+            - ci-build
+          filters:
+            branches:
+              only:
+                - master
