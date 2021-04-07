@@ -16,6 +16,13 @@ commands:
             sudo apt update
             sudo apt install python3-pip
             pip3 install nodejsscan
+  
+  validate_coverage:
+    steps:
+      - run:
+          name: Validate code coverage
+          command: |
+            bash <(curl -s https://codecov.io/bash)
 
 jobs:
   ci-build:
