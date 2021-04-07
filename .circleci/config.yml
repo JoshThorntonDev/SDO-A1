@@ -42,13 +42,13 @@ jobs:
       - run:
           name: Run nodejsscan
           command: |
-            nodejsscan -d ./ -o sast-results.json
+            nodejsscan -d ./ -o sast-output.json
       - store_artifacts:
-          path: sast-results.json
+          path: sast-output.json
       - run:
           name: Analyse sast results
           command: |
-            exit $(cat sast-results.json | jq.total_count.sec)
+            exit $(cat sast-output.json | jq.total_count.sec)
 
   pack:
     docker:
