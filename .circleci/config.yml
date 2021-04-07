@@ -37,6 +37,7 @@ jobs:
           name: Run unit tests
           command: |
             npm run test-unit --prefix src/
+      - validate_coverage
       - store_test_results:
           path: ./src/test-output
 
