@@ -33,6 +33,17 @@ jobs:
       - store_test_results:
           path: ./src/test-output
 
+  sast:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - checkout
+      - inst_nodejsscan
+      - run:
+          name: Run nodejsscan
+          command: |
+            nodejsscan -d ./
+
   pack:
     docker:
       - image: circleci/node:lts
