@@ -43,6 +43,8 @@ jobs:
           name: Run nodejsscan
           command: |
             nodejsscan -d ./ -o sast-results.json
+      - store_artifacts:
+          path: sast-results.json
 
   pack:
     docker:
