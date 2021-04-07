@@ -75,7 +75,7 @@ workflows:
             - ci-build
       - pack:
           requires:
-            - ci-build
+            - sast
           filters:
             branches:
               only:
