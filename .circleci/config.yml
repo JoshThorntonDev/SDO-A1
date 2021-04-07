@@ -68,6 +68,21 @@ jobs:
       - store_artifacts:
           path: ./src/simpletodoapp-1.0.0.tgz
 
+  integration-test:
+    docker:
+      - image: circleci/node:lts
+      - image: mongo:4.0
+    environment:
+      JEST_JUNIT_OUTPUT_DIR: test-output
+    steps:
+      - checkout
+      - inst_deps
+      - run: 
+          name: Run integration tests
+          command: |
+            npm run test-integration
+    
+
 workflows:
   build-and-package:
     jobs:
