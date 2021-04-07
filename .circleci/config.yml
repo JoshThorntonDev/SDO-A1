@@ -8,6 +8,15 @@ commands:
           command: |
             npm ci --prefix src/
 
+  inst_nodejsscan:
+    steps:
+      - run:
+          name: Install nodejsscan with python3-pip
+          command: |
+            sudo apt update
+            sudo apt install python3-pip
+            pip3 install nodejsscan
+
 jobs:
   ci-build:
     docker:
@@ -23,6 +32,23 @@ jobs:
             npm run test-unit --prefix src/
       - store_test_results:
           path: ./src/test-output
+
+  sast:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - checkout
+      - inst_nodejsscan
+      - run:
+          name: Run nodejsscan
+          command: |
+            nodejsscan -d ./ -o sast-output.json
+      - store_artifacts:
+          path: sast-output.json
+      - run:
+          name: Analyse sast results
+          command: |
+            exit $(cat sast-output.json | jq .total_count.sec)
 
   pack:
     docker:
@@ -44,6 +70,9 @@ workflows:
   build-and-package:
     jobs:
       - ci-build
+      - sast:
+          requires:
+            - ci-build
       - pack:
           requires:
             - ci-build

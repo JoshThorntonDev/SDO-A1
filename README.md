@@ -50,6 +50,18 @@ Basic Linting is performed across the code base. To run linting, execute the fol
 npm run test-lint --prefix src/
 ```
 
+### Static Code Analysis
+This feature automatically detects potential security issues and causes ci builds to fail when it does.
+This helps to prevent accidental deployment of potentially serious security flaws into the production branch.
+
+This is accomplished through the 'sast' job defined in .circleci/config.yml
+When the build-and-package workflow is triggered, and after ci-build has finished, sast installs python3-pip and uses that to install nodejsscan, the tool being used to generate a security report.
+
+Nodejsscan creates a sast-output.json file, which contains information on things such as the files nodejsscan has scanned and most importantly, the number of security issues it found.
+
+The sast job then uses jquery to read sast-output-json and return an exit code equal to the number of security issues. An exit code of 0 (no issues), is good. A code other than 0 will cancel the workflow.
+
+
 ### Unit Testing
 Unit testing is important, as it allows us to identify bugs in the code we have written. However, if they have to be run
 manually, it is possible that someone may forget to run them, thus letting a bug into production code. If they are run automatically, there is no chance that they will be forgotten.
