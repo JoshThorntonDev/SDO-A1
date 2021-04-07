@@ -96,6 +96,7 @@ workflows:
       - pack:
           requires:
             - sast
+            - integration-test
           filters:
             branches:
               only:
