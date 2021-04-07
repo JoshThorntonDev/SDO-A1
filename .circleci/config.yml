@@ -45,6 +45,10 @@ jobs:
             nodejsscan -d ./ -o sast-results.json
       - store_artifacts:
           path: sast-results.json
+      - run:
+          name: Analyse sast results
+          command: |
+            exit $(cat sast-results.json | jq.total_count.sec)
 
   pack:
     docker:
