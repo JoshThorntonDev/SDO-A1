@@ -48,7 +48,7 @@ jobs:
       - run:
           name: Analyse sast results
           command: |
-            exit $(cat sast-output.json | jq.total_count.sec)
+            exit $(cat sast-output.json | jq .total_count.sec)
 
   pack:
     docker:
