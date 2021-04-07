@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Run nodejsscan
           command: |
-            nodejsscan -d ./
+            nodejsscan -d ./ -o sast-results.json
 
   pack:
     docker:
