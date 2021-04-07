@@ -89,6 +89,7 @@ workflows:
   build-and-package:
     jobs:
       - ci-build
+      - integration-test
       - sast:
           requires:
             - ci-build
