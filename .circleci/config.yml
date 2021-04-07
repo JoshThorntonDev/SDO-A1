@@ -32,6 +32,8 @@ jobs:
             npm run test-unit --prefix src/
       - store_test_results:
           path: ./src/test-output
+      - store_artifacts:
+          path: ./src/coverage/lcov-report
 
   sast:
     docker:
