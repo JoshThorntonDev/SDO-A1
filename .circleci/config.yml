@@ -64,6 +64,9 @@ workflows:
   build-and-package:
     jobs:
       - ci-build
+      - sast:
+          requires:
+            - ci-build
       - pack:
           requires:
             - ci-build
