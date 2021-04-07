@@ -17,13 +17,6 @@ commands:
             sudo apt install python3-pip
             pip3 install nodejsscan
   
-  validate_coverage:
-    steps:
-      - run:
-          name: Validate code coverage
-          command: |
-            bash <(curl -s https://codecov.io/bash)
-
 jobs:
   ci-build:
     docker:
@@ -37,7 +30,6 @@ jobs:
           name: Run unit tests
           command: |
             npm run test-unit --prefix src/
-      - validate_coverage
       - store_test_results:
           path: ./src/test-output
 
