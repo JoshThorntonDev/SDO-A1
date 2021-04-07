@@ -50,6 +50,14 @@ Basic Linting is performed across the code base. To run linting, execute the fol
 npm run test-lint --prefix src/
 ```
 
+### Code Coverage
+Code Coverage allows us to know how much of our code is being tested by our tests.
+It lets us know if we are neglecting our test writing as we develop new features.
+
+It works through the use of --coverage in the test-unit script defined in package.json. This argument causes jest to save a code coverage report as it conducts its tests. The report is saved in the ARTIFACTS tab through store_artifacts in ci-build.
+
+The code coverage report can be found within the artifacts tab of the ci-build job. It can be viewed by clicking the artefact "src/coverage/lcov-report/index.html". It will then present you with a table showing code coverage.
+
 ### Static Code Analysis
 This feature automatically detects potential security issues and causes ci builds to fail when it does.
 This helps to prevent accidental deployment of potentially serious security flaws into the production branch.
