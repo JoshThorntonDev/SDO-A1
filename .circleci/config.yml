@@ -8,6 +8,15 @@ commands:
           command: |
             npm ci --prefix src/
 
+  inst_nodejsscan:
+    steps:
+      - run:
+          name: Install nodejsscan with python3-pip
+          command: |
+            sudo apt update
+            sudo apt install python3-pip
+            pip3 install nodejsscan
+
 jobs:
   ci-build:
     docker:
