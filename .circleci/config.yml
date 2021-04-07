@@ -80,7 +80,7 @@ jobs:
       - run: 
           name: Run integration tests
           command: |
-            npm run test-integration
+            npm run test-integration --prefix src/
       - store_test_results:
           path: ./src/test-output
     
