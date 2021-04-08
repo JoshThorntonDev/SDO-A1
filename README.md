@@ -81,6 +81,7 @@ It lets us know if we are neglecting our test writing as we develop new features
 
 It works through the '-- --coverage' found in 'Run unit tests' in ci-build. This argument causes jest to save a code coverage report as it conducts its tests. The report is saved in the ARTIFACTS tab through store_artifacts in ci-build.
 The code coverage report can be found within the artifacts tab of the ci-build job. It can be viewed by clicking the artefact "src/coverage/lcov-report/index.html". It will then present you with a table showing code coverage.
+The code coverage report can be found within the artifacts tab of the ci-build job. It can be viewed by clicking the artefact "src/coverage/lcov-report/index.html". It will then present you with a table showing code coverage.
 
 ### Artefact Generation
 Generating a deployable version of the application takes time. If it needs to be done manually, when a change is made, someone may forget to build a new version with the updated code, wasting even more time.
