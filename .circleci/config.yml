@@ -29,8 +29,9 @@ jobs:
       - run:
           name: Linting
           command: |
+            cd src/
             npm install @vue/cli
-            vue add eslint
+            node_modules/.bin/vue add eslint
             vue-cli-service lint
       - run:
           name: Run unit tests
