@@ -34,7 +34,7 @@ jobs:
       - run:
           name: Run unit tests
           command: |
-            npm run test-unit --prefix src/
+            npm run test-unit --prefix src/ -- --coverage
       - store_test_results: # saves the actual test results
           path: ./src/test-output
       - store_artifacts: # saves an html-based report indicating how much of the code is covered by the tests
