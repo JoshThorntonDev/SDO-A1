@@ -4,14 +4,14 @@ commands:
   inst_deps:
     steps:
       - run:
-          name: Install dependencies
+          name: Install dependencies # Installs what is required for the app's functionality
           command: |
             npm ci --prefix src/
 
   inst_nodejsscan:
     steps:
       - run:
-          name: Install nodejsscan with python3-pip
+          name: Install nodejsscan with python3-pip # Installs a tool used for security testing
           command: |
             sudo apt update
             sudo apt install python3-pip
@@ -22,7 +22,7 @@ jobs:
     docker:
       - image: circleci/node:lts
     environment:
-      JEST_JUNIT_OUTPUT_DIR: test-output
+      JEST_JUNIT_OUTPUT_DIR: test-output # Directory where test results will be saved
     steps:
       - checkout
       - inst_deps
@@ -35,7 +35,7 @@ jobs:
       - store_artifacts: # saves an html-based report indicating how much of the code is covered by the tests
           path: ./src/coverage/lcov-report
 
-  sast:
+  sast: # Checks the application for potentially security risks, and cause the build to fail if it finds any.
     docker:
       - image: circleci/node:lts
     steps:
@@ -48,11 +48,11 @@ jobs:
       - store_artifacts:
           path: sast-output.json
       - run:
-          name: Analyse sast results
+          name: Analyse sast results # The code is responsible for breaking the build if issue is found.
           command: |
-            exit $(cat sast-output.json | jq .total_count.sec)
+            exit $(cat sast-output.json | jq .total_count.sec) 
 
-  pack:
+  pack: # Stores a deployable version of the applcation
     docker:
       - image: circleci/node:lts
     environment:
@@ -68,12 +68,12 @@ jobs:
       - store_artifacts:
           path: ./src/simpletodoapp-1.0.0.tgz
 
-  integration-test:
+  integration-test: # Runs tests to ensure the app correctly talks to the database
     docker:
       - image: circleci/node:lts
-      - image: mongo:4.0
+      - image: mongo:4.0 # This creates an image of the database
     environment:
-      JEST_JUNIT_OUTPUT_DIR: test-output
+      JEST_JUNIT_OUTPUT_DIR: test-output # Directory where test results will be saved
     steps:
       - checkout
       - inst_deps
@@ -94,10 +94,11 @@ workflows:
           requires:
             - ci-build
       - pack:
-          requires:
+          requires: # Requires forces the pack job to wait for the below jobs to finish before running,
+                    # this means that if either fail, pack will not run at all
             - sast
             - integration-test
-          filters:
+          filters: # The filter stops pack from running on branches that are not master.
             branches:
               only:
                 - master

@@ -96,7 +96,9 @@ It works through the 'integration-test' job defined in .circleci/config.yml.
 The job creates two docker images, the first is the standard node image used in the other jobs. The second is a MongoDB instance that allows the tests to function correctly.
 The job sets the variable 'JEST_JUNIT_OUTPUT_DIR' to 'test-output', making the results of the tests save to a folder named 'test-output'.
 
-The job then automatically runs 'npm run test-integration --prefix src/', which runs the integration tests and saves the results. The results are then saved on circleci using store_test_results
+The job then automatically runs 'npm run test-integration --prefix src/', which runs the integration tests and saves the results. The results are then saved on circleci using store_test_results.
+
+Additionally, because circleci creates a new, empty database every time, there isn't a risk of a previous test leaving traces in the database that affects future tests.
 
 ### E2E Tests
 E2E Tests are included to ensure that the website operates as it should from the users perspective. E2E Tests are executed in docker containers. To run E2E Tests execute the following commands:
