@@ -51,9 +51,6 @@ npm run test-lint --prefix src/
 ```
 
 
-
-The code coverage report can be found within the artifacts tab of the ci-build job. It can be viewed by clicking the artefact "src/coverage/lcov-report/index.html". It will then present you with a table showing code coverage.
-
 ### Static Code Analysis
 This feature automatically detects potential security issues and causes ci builds to fail when it does.
 This helps to prevent accidental deployment of potentially serious security flaws into the production branch.
@@ -92,13 +89,15 @@ Artefact generation is automated with the 'pack' job defined in .circleci/config
 ### Integration Testing
 Integration testing is included to ensure the applicaiton can talk to the MongoDB Backend and create a user, redirect to the correct page, login as a user and register a new task. 
 
-Note: MongoDB needs to be running locally for testing to work (This can be done by spinning up the mongodb docker container).
+When run manually, integration tests can take quite a bit of time, and also require you to remember to activate the MongoDB instance prior to issuing the test command. Automating the tests reducing the rate of conducting the test incorrectly and can save time.
 
-To perform integration testing execute the following commands from the root directory:
+It works through the 'integration-test' job defined in .circleci/config.yml.
+The job creates two docker images, the first is the standard node image used in the other jobs. The second is a MongoDB instance that allows the tests to function correctly.
+The job sets the variable 'JEST_JUNIT_OUTPUT_DIR' to 'test-output', making the results of the tests save to a folder named 'test-output'.
 
-```
-npm run test-integration --prefix src/
-```
+The job then automatically runs 'npm run test-integration --prefix src/', which runs the integration tests and saves the results. The results are then saved on circleci using store_test_results.
+
+Additionally, because circleci creates a new, empty database every time, there isn't a risk of a previous test leaving traces in the database that affects future tests.
 
 ### E2E Tests
 E2E Tests are included to ensure that the website operates as it should from the users perspective. E2E Tests are executed in docker containers. To run E2E Tests execute the following commands:
