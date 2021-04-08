@@ -50,11 +50,7 @@ Basic Linting is performed across the code base. To run linting, execute the fol
 npm run test-lint --prefix src/
 ```
 
-### Code Coverage
-Code Coverage allows us to know how much of our code is being tested by our tests.
-It lets us know if we are neglecting our test writing as we develop new features.
 
-It works through the use of --coverage in the test-unit script defined in package.json. This argument causes jest to save a code coverage report as it conducts its tests. The report is saved in the ARTIFACTS tab through store_artifacts in ci-build.
 
 The code coverage report can be found within the artifacts tab of the ci-build job. It can be viewed by clicking the artefact "src/coverage/lcov-report/index.html". It will then present you with a table showing code coverage.
 
@@ -78,9 +74,15 @@ Automated unit testing is accomplished within the ci-build job defined in .circl
 ci-build is triggered by the build-and-package workflow, which runs whenever a change is made to master or a pull request is made.
 ci-build first does some preliminary tasks; installing dependencies and running the 'checkout' command. Then, it automatically runs the following command:
 ```
-npm run test-unit --prefix src/
+npm run test-unit --prefix src/ -- --coverage
 ```
 This generates a junit.xml file containing the results of the tests. This file is stored within the folder specified with JEST_JUNIT_OUTPUT_DIR, and uploaded to circleci using store_test_results
+
+### Code Coverage
+Code Coverage allows us to know how much of our code is being tested by our tests.
+It lets us know if we are neglecting our test writing as we develop new features.
+
+It works through the '-- --coverage' found in 'Run unit tests' in ci-build. This argument causes jest to save a code coverage report as it conducts its tests. The report is saved in the ARTIFACTS tab through store_artifacts in ci-build.
 
 ### Artefact Generation
 Generating a deployable version of the application takes time. If it needs to be done manually, when a change is made, someone may forget to build a new version with the updated code, wasting even more time.
