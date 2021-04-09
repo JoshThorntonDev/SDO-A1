@@ -44,11 +44,11 @@ localhost:5000
 Basic testing has been included as part of this application. This includes unit testing (Models Only), Integration Testing & E2E Testing.
 
 ### Linting:
-Basic Linting is performed across the code base. To run linting, execute the following commands from the root directory:
+Linting is helpful because it can find potential errors very quickly. These errors may include unreachable code or an attempt to access an array index that is out of bounds.
 
-```
-npm run test-lint --prefix src/
-```
+Linting is conducted as part of the ci-build job, as it is very quick to run, which means if an error is found we will know almost immediately.
+ci-build runs 'npm run test-lint --prefix src/' after it has installed the dependencies it needs.
+
 
 
 ### Static Code Analysis

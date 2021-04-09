@@ -27,6 +27,11 @@ jobs:
       - checkout
       - inst_deps
       - run:
+          name: Linting
+          command: |
+            npm run test-lint --prefix src/
+
+      - run:
           name: Run unit tests
           command: |
             npm run test-unit --prefix src/ -- --coverage
