@@ -29,9 +29,7 @@ jobs:
       - run:
           name: Linting
           command: |
-            cd src/
-            npm run test-lint -- --init
-            npm run test-lint
+            npm run test-lint --prefix src/
 
       - run:
           name: Run unit tests
