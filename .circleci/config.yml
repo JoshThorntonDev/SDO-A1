@@ -90,17 +90,20 @@ jobs:
           path: ./src/test-output
     
 
-workflows:
+workflows: # The 'requires' field prevents a job from running until the specified job(s) have finished with no errors
   build-and-package:
     jobs:
       - ci-build
-      - integration-test
       - sast:
           requires:
             - ci-build
+      - integration-test:
+          requires:
+            - ci-build
+            - sast
       - pack:
-          requires: # Requires forces the pack job to wait for the below jobs to finish before running,
-                    # this means that if either fail, pack will not run at all
+          requires:
+            - ci-build 
             - sast
             - integration-test
           filters: # The filter stops pack from running on branches that are not master.
