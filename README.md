@@ -43,15 +43,17 @@ localhost:5000
 
 Basic testing has been included as part of this application. This includes unit testing (Models Only), Integration Testing & E2E Testing.
 
-### Linting:
+### Static Code Analysis - Linting:
 Linting is helpful because it can find potential errors very quickly. These errors may include unreachable code or an attempt to access an array index that is out of bounds.
 
 Linting is conducted as part of the ci-build job, as it is very quick to run, which means if an error is found we will know almost immediately.
 ci-build runs 'npm run test-lint --prefix src/' after it has installed the dependencies it needs.
 
+#### Linting Tests passing
+![Linting Tests Passing](screenshots/lint.jpg)
 
 
-### Static Code Analysis
+### Static Code Analysis - SAST
 This feature automatically detects potential security issues and causes ci builds to fail when it does.
 This helps to prevent accidental deployment of potentially serious security flaws into the production branch.
 
@@ -62,6 +64,8 @@ Nodejsscan creates a sast-output.json file, which contains information on things
 
 The sast job then uses jquery to read sast-output-json and return an exit code equal to the number of security issues. An exit code of 0 (no issues), is good. A code other than 0 will cancel the workflow.
 
+#### SAST Tests passing
+![SAST Tests Passing](screenshots/sast.jpg)
 
 ### Unit Testing
 Unit testing is important, as it allows us to identify bugs in the code we have written. However, if they have to be run
@@ -75,6 +79,9 @@ npm run test-unit --prefix src/ -- --coverage
 ```
 This generates a junit.xml file containing the results of the tests. This file is stored within the folder specified with JEST_JUNIT_OUTPUT_DIR, and uploaded to circleci using store_test_results
 
+#### Unit Tests passing
+![Unit Tests Passing](screenshots/unit-tests.jpg)
+
 ### Code Coverage
 Code Coverage allows us to know how much of our code is being tested by our tests.
 It lets us know if we are neglecting our test writing as we develop new features.
@@ -83,12 +90,16 @@ It works through the '-- --coverage' found in 'Run unit tests' in ci-build. This
 The code coverage report can be found within the artifacts tab of the ci-build job. It can be viewed by clicking the artefact "src/coverage/lcov-report/index.html". It will then present you with a table showing code coverage.
 The code coverage report can be found within the artifacts tab of the ci-build job. It can be viewed by clicking the artefact "src/coverage/lcov-report/index.html". It will then present you with a table showing code coverage.
 
-![Screenshot](screenshots/code-coverage.jpg)
+#### Code Coverage tests passing
+![Code Coverage Passing](screenshots/code-coverage.jpg)
 
 ### Artefact Generation
 Generating a deployable version of the application takes time. If it needs to be done manually, when a change is made, someone may forget to build a new version with the updated code, wasting even more time.
 
 Artefact generation is automated with the 'pack' job defined in .circleci/config.yml, it executes after ci-build has finished, using 'requires'. It also only activates on the master branch because of the filter applied. This is to prevent needlessly building the application on test branches.
+
+#### Artefact Generation tests passing (pack only runs on master)
+![Artefact Generation Passing](screenshots/artefact-generation.jpg)
 
 ### Integration Testing
 Integration testing is included to ensure the applicaiton can talk to the MongoDB Backend and create a user, redirect to the correct page, login as a user and register a new task. 
@@ -102,6 +113,9 @@ The job sets the variable 'JEST_JUNIT_OUTPUT_DIR' to 'test-output', making the r
 The job then automatically runs 'npm run test-integration --prefix src/', which runs the integration tests and saves the results. The results are then saved on circleci using store_test_results.
 
 Additionally, because circleci creates a new, empty database every time, there isn't a risk of a previous test leaving traces in the database that affects future tests.
+
+#### Integration Tests passing
+![Integration Tests Passing](screenshots/integration.jpg)
 
 ### E2E Tests
 E2E Tests are included to ensure that the website operates as it should from the users perspective. E2E Tests are executed in docker containers. To run E2E Tests execute the following commands:
