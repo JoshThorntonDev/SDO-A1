@@ -62,6 +62,5 @@ typings/
 sast-output.json
 junit.xml
 
-#screenshots
-screenshots/
+
 
