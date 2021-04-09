@@ -50,6 +50,7 @@ Linting is conducted as part of the ci-build job, as it is very quick to run, wh
 ci-build runs 'npm run test-lint --prefix src/' after it has installed the dependencies it needs.
 
 
+
 ### Static Code Analysis
 This feature automatically detects potential security issues and causes ci builds to fail when it does.
 This helps to prevent accidental deployment of potentially serious security flaws into the production branch.
