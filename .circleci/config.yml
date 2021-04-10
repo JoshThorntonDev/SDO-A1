@@ -1,17 +1,17 @@
 version: 2.1
 
 commands:
-  inst_deps:
+  inst_deps:  # Installs what is required for the app's functionality
     steps:
       - run:
-          name: Install dependencies # Installs what is required for the app's functionality
+          name: Install dependencies
           command: |
             npm ci --prefix src/
 
-  inst_nodejsscan:
+  inst_nodejsscan:  # Installs a tool used for security testing
     steps:
       - run:
-          name: Install nodejsscan with python3-pip # Installs a tool used for security testing
+          name: Install nodejsscan with python3-pip
           command: |
             sudo apt update
             sudo apt install python3-pip
@@ -66,7 +66,7 @@ jobs:
       - checkout
       - inst_deps
       - run:
-          name: pack
+          name: pack # npm pack stores the applications files in a .tgz file
           command: |
             cd src/
             npm pack
